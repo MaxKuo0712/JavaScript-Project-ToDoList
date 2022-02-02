@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(90deg, rgb(160, 219, 160), rgb(219, 231, 165));
+}
+
+header {
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  p {
+    font-size: 1.25rem;
+    font-weight: bolder;
+  }
+
+  input,
+  select,
+  button {
+    border: none;
+    padding: 0.25rem 0.5rem;
+    font-size: 1.25rem;
+    margin: 0.5rem;
+  }
+
+  select {
+    option {
+      text-align: center;
+    }
+  }
+}

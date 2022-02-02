@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background: -webkit-gradient(linear, left top, right top, from(#a0dba0), to(#dbe7a5));
+  background: linear-gradient(90deg, #a0dba0, #dbe7a5);
+}
+
+header {
+  height: 20vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+form p {
+  font-size: 1.25rem;
+  font-weight: bolder;
+}
+
+form input,
+form select,
+form button {
+  border: none;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.25rem;
+  margin: 0.5rem;
+}
+
+form select option {
+  text-align: center;
+}
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name = "author" content="Max Kuo">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="index, follow">
+        <meta name="description" content="">
+        <title>Todo List</title>
+        <link rel="stylesheet" href="./style/style.css">
+    </head>
+    <body>
+        <header>
+            <h1>Max Kuo's Todo List</h1>
+        </header>
+
+        <form>
+            <input type="text">
+            <!-- <input type="number" min="1" max="12" placeholder="M" required>
+            <input type="number" min="1" max="31" placeholder="D" required> -->
+            <select name="month" id="month" class="month">
+                <option value="">請選擇月份</option>
+            </select>
+            <p>月</p>
+            <select name="day" id="day" class="day">
+                <option value="">請選擇日期</option>
+            </select>
+            <p>日</p>
+            <button type="submit">加入列表</button>
+        </form>
+
+        <div class="sort">
+            <button>排序列表</button>
+        </div>
+
+        <section>
+
+        </section>
+    </body>
+    <script src="./app.js"></script>
+</html>
