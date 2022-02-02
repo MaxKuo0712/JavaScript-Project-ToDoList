@@ -4,11 +4,16 @@
   box-sizing: border-box;
 }
 
+i {
+  pointer-events: none;
+}
+
 body {
   background: linear-gradient(90deg, rgb(160, 219, 160), rgb(219, 231, 165));
 }
 
 header {
+  color: black;
   height: 20vh;
   display: flex;
   justify-content: center;
@@ -39,5 +44,80 @@ form {
     option {
       text-align: center;
     }
+  }
+
+  button {
+    cursor: pointer;
+    background-color: rgb(221, 129, 43);
+    color: white;
+  }
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+
+  div.done {
+    opacity: 0.3;
+    text-decoration: line-through;
+    text-decoration-thickness: 0.2rem;
+  }
+
+  div.todo {
+    width: 30vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.2rem 0rem;
+    transition: all 0.3s ease;
+
+    p {
+      background-color: white;
+      color: black;
+      padding: 0.25rem 0.5rem;
+      font-size: 1.75rem;
+    }
+
+    p.todo-text {
+      width: 100%;
+    }
+
+    p.todo-date {
+      width: 40%;
+      text-align: center;
+    }
+
+    button {
+      padding: 0.25rem 0.5rem;
+      font-size: 1.75rem;
+      border: none;
+      cursor: pointer;
+      color: white;
+    }
+
+    button.checkBotton {
+      background-color: green;
+    }
+
+    button.trashBotton {
+      background-color: red;
+    }
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleDown {
+  to {
+    transform: scale(0);
   }
 }

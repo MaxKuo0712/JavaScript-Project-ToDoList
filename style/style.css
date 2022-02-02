@@ -5,12 +5,17 @@
           box-sizing: border-box;
 }
 
+i {
+  pointer-events: none;
+}
+
 body {
   background: -webkit-gradient(linear, left top, right top, from(#a0dba0), to(#dbe7a5));
   background: linear-gradient(90deg, #a0dba0, #dbe7a5);
 }
 
 header {
+  color: black;
   height: 20vh;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -55,5 +60,116 @@ form button {
 
 form select option {
   text-align: center;
+}
+
+form button {
+  cursor: pointer;
+  background-color: #dd812b;
+  color: white;
+}
+
+section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+section div.done {
+  opacity: 0.3;
+  text-decoration: line-through;
+  text-decoration-thickness: 0.2rem;
+}
+
+section div.todo {
+  width: 30vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0.2rem 0rem;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+section div.todo p {
+  background-color: white;
+  color: black;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.75rem;
+}
+
+section div.todo p.todo-text {
+  width: 100%;
+}
+
+section div.todo p.todo-date {
+  width: 40%;
+  text-align: center;
+}
+
+section div.todo button {
+  padding: 0.25rem 0.5rem;
+  font-size: 1.75rem;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+section div.todo button.checkBotton {
+  background-color: green;
+}
+
+section div.todo button.trashBotton {
+  background-color: red;
+}
+
+@-webkit-keyframes scaleUp {
+  from {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@-webkit-keyframes scaleDown {
+  to {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+}
+
+@keyframes scaleDown {
+  to {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
 }
 /*# sourceMappingURL=style.css.map */
