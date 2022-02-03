@@ -32,54 +32,61 @@ addList.addEventListener("click", e => {
             return;
         }
     } else {
-        //增加List
+        //增加TodoList內容
+        // let todoText = document.createElement("p");
+        // let todoDate = document.createElement("p");
         let todoList = document.createElement("div");
-        todoList.classList.add("todo");
+        addChildren(todoList, addTodoText, addTodoMonth, addTodoDay);
 
-        let todoText = document.createElement("p");
-        todoText.classList.add("todo-text");
-        todoText.innerText = addTodoText;
+        // let todoList = document.createElement("div");
+        // todoList.classList.add("todo");
 
-        let todoDate = document.createElement("p");
-        todoDate.classList.add("todo-date");
-        todoDate.innerText = addTodoMonth + " / " + addTodoDay;
+        // let todoText = document.createElement("p");
+        // todoText.classList.add("todo-text");
+        // todoText.innerText = addTodoText;
 
-        todoList.appendChild(todoText);
-        todoList.appendChild(todoDate);
-        section.appendChild(todoList);
+        // let todoDate = document.createElement("p");
+        // todoDate.classList.add("todo-date");
+        // todoDate.innerText = addTodoMonth + " / " + addTodoDay;
 
-        //建立check圖及垃圾桶圖
-        let checkBotton = document.createElement("button");
-        let trashBotton = document.createElement("button");
+        // todoList.appendChild(todoText);
+        // todoList.appendChild(todoDate);
+        // section.appendChild(todoList);
 
-        checkBotton.classList.add("checkBotton");
-        trashBotton.classList.add("trashBotton");
+        //建立Check圖、功能及動畫
+        addCheckBotton(todoList);
 
-        checkBotton.innerHTML = '<i class="fas fa-check-square"></i>';
-        trashBotton.innerHTML = '<i class="fas fa-trash-alt"></i>';
-
-        todoList.appendChild(checkBotton);
-        todoList.appendChild(trashBotton);
-
-        //加入的放大特效
-        todoList.style.animation = "scaleUp 0.3s forwards";
-
-        //確認完成效果
-        checkBotton.addEventListener("click", e => {
-            let checkItem = e.target.parentElement;
-            checkItem.classList.toggle("done");
-        });
-
-        //刪除效果
-        trashBotton.addEventListener("click", e => {
-            let deleteItem = e.target.parentElement;
-            deleteItem.style.animation = "scaleDown 0.3s forwards"; //刪除的縮小特效
-            // deleteItem.remove(); // 錯誤做法，因為他不會等動畫0.3秒結束才執行
-            deleteItem.addEventListener("animationend", () => {
-                deleteItem.remove();
-            });
-        });
+        //建立Trash圖、功能及動畫
+        addTrashBotton(todoList);
     }
+
+    //放入localstorage儲存
+
+    let myTodo = {
+        todoText: addTodoText,
+        todoMonth: addTodoMonth,
+        todoDay: addTodoDay
+    }
+
+    let getTodoList = localStorage.getItem("todoList"); //取得目前localStorage內的todoList資料
+
+    if(getTodoList == null) {
+        //如果localStorage內為null，則放入目前欲新增的todoList內容
+        localStorage.setItem("todoList", JSON.stringify([myTodo]));
+    } else {
+        //如果localStorage內不為null，則加入目前todoList的資料
+        let myListArray = JSON.parse(getTodoList); //將localStorage取得的資料轉為array取出
+        myListArray.push(myTodo); //將目前欲新增的todoList資料push進array
+        /**
+         * localStorage.clear(); 
+         * 為什麼不需要先clear後，再放入？ 
+         * Ans：已被覆蓋，因為localStorage是key-value資料型態
+         * key-value資料型態：鍵是唯一的，但值可以重複；若鍵重複，則前一個鍵會被覆蓋掉
+         */
+        localStorage.setItem("todoList", JSON.stringify(myListArray)) //將資料放入localStorage
+    }
+
+    // console.log(JSON.parse(localStorage.getItem("todoList")));
     
     //送出後清除
     todoText.value = "";
@@ -87,6 +94,28 @@ addList.addEventListener("click", e => {
     todoDay.value = "";
 });
 
+//網頁載入，載入localStorage內的資料，並呈現出來
+let myTodoList = localStorage.getItem("todoList");
+
+if (myTodoList !== null) {
+    let myTodoListArray = JSON.parse(myTodoList);
+
+    myTodoListArray.forEach( storageItem => {
+
+        //增加TodoList內容
+        let addTodoText = storageItem.todoText;
+        let addTodoMonth = storageItem.todoMonth;
+        let addTodoDay = storageItem.todoDay;  
+        let todoList = document.createElement("div");
+        addChildren(todoList, addTodoText, addTodoMonth, addTodoDay);
+
+        //建立Check圖、功能及動畫
+        addCheckBotton(todoList);
+
+        //建立Trash圖、功能及動畫
+        addTrashBotton(todoList);
+    });
+}
 
 //網頁載入，處理日期選項
 function settingDateOption() {
@@ -157,3 +186,75 @@ function settingDateOption() {
         }
     });
 }
+
+//新增列表
+function addChildren(todoList, addTodoText, addTodoMonth, addTodoDay) {
+    let todoText = document.createElement("p");
+    let todoDate = document.createElement("p");
+
+    //add HTML Tag calssName
+    todoList.classList.add("todo");
+    todoText.classList.add("todo-text");
+    todoDate.classList.add("todo-date");
+
+    //放入內容
+    todoText.innerText = addTodoText;
+    todoDate.innerText = addTodoMonth + " / " + addTodoDay;
+
+    //新增
+    todoList.appendChild(todoText);
+    todoList.appendChild(todoDate);
+    section.appendChild(todoList);
+}
+
+//建立Check圖、功能及動畫
+function addCheckBotton(todoList) {
+    let checkBotton = document.createElement("button"); //建立一個Botton
+    checkBotton.classList.add("checkBotton"); //幫增加的Botton加上class
+    checkBotton.innerHTML = '<i class="fas fa-check-square"></i>'; //帶入fontawesome的圖
+    todoList.appendChild(checkBotton); //增加子項目
+
+    //加入的放大特效
+    todoList.style.animation = "scaleUp 0.3s forwards";
+
+    //確認完成效果
+    checkBotton.addEventListener("click", e => {
+        let checkItem = e.target.parentElement;
+        checkItem.classList.toggle("done");
+    });
+}
+
+//建立Trash圖、功能及動畫
+function addTrashBotton(todoList) {
+    let trashBotton = document.createElement("button"); //建立一個Botton
+    trashBotton.classList.add("trashBotton"); //幫增加的Botton加上class
+    trashBotton.innerHTML = '<i class="fas fa-trash-alt"></i>'; //帶入fontawesome的圖
+    todoList.appendChild(trashBotton); //增加子項目
+
+    //刪除效果
+    trashBotton.addEventListener("click", e => {
+        let deleteItem = e.target.parentElement;
+
+        deleteItem.style.animation = "scaleDown 0.3s forwards"; //刪除的縮小特效
+
+        // deleteItem.remove(); // 錯誤做法，因為他不會等動畫0.3秒結束才執行
+        deleteItem.addEventListener("animationend", () => {
+            deleteItem.remove();
+
+            //刪除localStorage內的資料
+            let storageArry = JSON.parse(localStorage.getItem("todoList"));
+
+            storageArry.forEach( (storageItem) => {
+                let storageTodoText = storageItem.todoText;
+                let storageTodoMonth = storageItem.todoMonth;
+                let storageTodoDay = storageItem.todoDay;
+
+                if( (storageTodoText + storageTodoMonth + " / " + storageTodoDay) == deleteItem.textContent) {
+                    storageArry.shift(storageItem);
+                    localStorage.setItem("todoList", JSON.stringify(storageArry));
+                }
+            });
+        });
+    });
+}
+
