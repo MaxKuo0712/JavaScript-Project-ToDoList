@@ -66,6 +66,7 @@ form button {
   cursor: pointer;
   background-color: #dd812b;
   color: white;
+  border-radius: 10px;
 }
 
 section {
