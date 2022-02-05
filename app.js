@@ -1,9 +1,8 @@
-settingDateOption(); //網頁載入，處理日期選項
-
 //處理Button加入列表
 let addList = document.querySelector("form button");
 let section = document.querySelector("section");
 
+settingDateOption(); //網頁載入，處理日期選項
 loadData(); //載入localStorage資料
 
 //按下「加入列表」的事件
@@ -154,7 +153,10 @@ function settingDateOption() {
     }
 
     //當月份被選取時，觸發日期的改變，依照選取月份，帶入當月的總天數
-    configMonth.addEventListener("click", () => {
+    // let getMonthOption = document.querySelector(".monthOption");
+    // console.log(configMonth);
+
+    configMonth.addEventListener("change", () => {
 
         //清除前一次的天數
         let resetDay = document.querySelectorAll(".dayOption");
@@ -163,6 +165,8 @@ function settingDateOption() {
         });
 
         const dayOfMonth = monthAndDay[configMonth.value]; //取得對應的當月總天數
+
+        console.log(monthAndDay[configMonth.value]);
 
         //增加日期的option
         for (let dayCount = 1; dayCount <= dayOfMonth; dayCount++) {

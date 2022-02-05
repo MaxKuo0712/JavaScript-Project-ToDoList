@@ -117,7 +117,7 @@ section div.todo p.todo-text {
 }
 
 section div.todo p.todo-date {
-  width: 40%;
+  width: 60%;
   text-align: center;
 }
 
@@ -135,6 +135,24 @@ section div.todo button.checkBotton {
 
 section div.todo button.trashBotton {
   background-color: red;
+}
+
+@media screen and (max-width: 1100px) {
+  section div.todo {
+    width: 70vw;
+  }
+  section div.todo p.todo-date {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  section div.todo {
+    width: 90vw;
+  }
+  section div.todo p.todo-date {
+    width: 70%;
+  }
 }
 
 @-webkit-keyframes scaleUp {

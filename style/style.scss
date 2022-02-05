@@ -85,7 +85,7 @@ section {
     }
 
     p.todo-date {
-      width: 40%;
+      width: 60%;
       text-align: center;
     }
 
@@ -103,6 +103,28 @@ section {
 
     button.trashBotton {
       background-color: red;
+    }
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  section {
+    div.todo {
+      width: 70vw;
+      p.todo-date {
+        width: 70%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  section {
+    div.todo {
+      width: 90vw;
+      p.todo-date {
+        width: 70%;
+      }
     }
   }
 }
