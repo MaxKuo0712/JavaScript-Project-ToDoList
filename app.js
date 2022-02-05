@@ -1,11 +1,13 @@
 settingDateOption(); //網頁載入，處理日期選項
 
 //處理Button加入列表
-let section = document.querySelector("section");
 let addList = document.querySelector("form button");
+let section = document.querySelector("section");
 
+loadData(); //載入localStorage資料
+
+//按下「加入列表」的事件
 addList.addEventListener("click", e => {
-    
     e.preventDefault();
 
     //取得input資訊
@@ -33,25 +35,8 @@ addList.addEventListener("click", e => {
         }
     } else {
         //增加TodoList內容
-        // let todoText = document.createElement("p");
-        // let todoDate = document.createElement("p");
         let todoList = document.createElement("div");
         addChildren(todoList, addTodoText, addTodoMonth, addTodoDay);
-
-        // let todoList = document.createElement("div");
-        // todoList.classList.add("todo");
-
-        // let todoText = document.createElement("p");
-        // todoText.classList.add("todo-text");
-        // todoText.innerText = addTodoText;
-
-        // let todoDate = document.createElement("p");
-        // todoDate.classList.add("todo-date");
-        // todoDate.innerText = addTodoMonth + " / " + addTodoDay;
-
-        // todoList.appendChild(todoText);
-        // todoList.appendChild(todoDate);
-        // section.appendChild(todoList);
 
         //建立Check圖、功能及動畫
         addCheckBotton(todoList);
@@ -61,7 +46,6 @@ addList.addEventListener("click", e => {
     }
 
     //放入localstorage儲存
-
     let myTodo = {
         todoText: addTodoText,
         todoMonth: addTodoMonth,
@@ -85,36 +69,41 @@ addList.addEventListener("click", e => {
          */
         localStorage.setItem("todoList", JSON.stringify(myListArray)) //將資料放入localStorage
     }
-
-    // console.log(JSON.parse(localStorage.getItem("todoList")));
-    
     //送出後清除
     todoText.value = "";
     todoMonth.value = "";
     todoDay.value = "";
+
+    //按下「加入列表」後，排序現在列表的資料
+    sortTodoList(); //針對localStorage進行排序
+    removeDate(); //移除畫面上列表資料
+    loadData(); //重新載入資料
+
 });
 
 //網頁載入，載入localStorage內的資料，並呈現出來
-let myTodoList = localStorage.getItem("todoList");
+function loadData() {
+    let myTodoList = localStorage.getItem("todoList");
 
-if (myTodoList !== null) {
-    let myTodoListArray = JSON.parse(myTodoList);
-
-    myTodoListArray.forEach( storageItem => {
-
-        //增加TodoList內容
-        let addTodoText = storageItem.todoText;
-        let addTodoMonth = storageItem.todoMonth;
-        let addTodoDay = storageItem.todoDay;  
-        let todoList = document.createElement("div");
-        addChildren(todoList, addTodoText, addTodoMonth, addTodoDay);
-
-        //建立Check圖、功能及動畫
-        addCheckBotton(todoList);
-
-        //建立Trash圖、功能及動畫
-        addTrashBotton(todoList);
-    });
+    if (myTodoList !== null) {
+        let myTodoListArray = JSON.parse(myTodoList);
+    
+        myTodoListArray.forEach( storageItem => {
+    
+            //增加TodoList內容
+            let addTodoText = storageItem.todoText;
+            let addTodoMonth = storageItem.todoMonth;
+            let addTodoDay = storageItem.todoDay;  
+            let todoList = document.createElement("div");
+            addChildren(todoList, addTodoText, addTodoMonth, addTodoDay);
+    
+            //建立Check圖、功能及動畫
+            addCheckBotton(todoList);
+    
+            //建立Trash圖、功能及動畫
+            addTrashBotton(todoList);
+        });
+    }
 }
 
 //網頁載入，處理日期選項
@@ -187,6 +176,14 @@ function settingDateOption() {
     });
 }
 
+//移除列表
+function removeDate() {
+    let len = section.children.length;
+    for (let i = 0; i < len; i++) {
+        section.children[0].remove();
+    }
+}
+
 //新增列表
 function addChildren(todoList, addTodoText, addTodoMonth, addTodoDay) {
     let todoText = document.createElement("p");
@@ -221,6 +218,19 @@ function addCheckBotton(todoList) {
     checkBotton.addEventListener("click", e => {
         let checkItem = e.target.parentElement;
         checkItem.classList.toggle("done");
+
+        //Check表示已完成，會從localStorage內去除
+        let dbTodoListAry = JSON.parse(localStorage.getItem("todoList"));
+        dbTodoListAry.forEach( storageItem => {
+            let storageTodoText = storageItem.todoText;
+            let storageTodoMonth = storageItem.todoMonth;
+            let storageTodoDay = storageItem.todoDay;
+
+            if ((storageTodoText + storageTodoMonth + " / " + storageTodoDay) == checkItem.textContent) {
+                dbTodoListAry.shift(storageItem);
+                localStorage.setItem("todoList", JSON.stringify(dbTodoListAry));
+            }
+        });
     });
 }
 
@@ -258,3 +268,58 @@ function addTrashBotton(todoList) {
     });
 }
 
+//排序列表
+function sortTodoList() {
+    let localStorageTodoList = JSON.parse(localStorage.getItem("todoList"));
+    localStorage.setItem("todoList", JSON.stringify(mergeSort(localStorageTodoList)));
+}
+
+//合併排序法
+function mergeSort(array) {
+    
+    if (array.length === 1) {
+        return array;
+    }
+
+    let cutNum = Math.floor(array.length / 2);
+    let leftArray = array.slice(0, cutNum);
+    let rightArray = array.slice(cutNum, array.length);
+
+    return mergeSortByTime(mergeSort(leftArray), mergeSort(rightArray));
+}
+function mergeSortByTime(left, right) {
+    let result = [];
+
+    let leftCount = 0;
+    let rightCount = 0;
+
+    while (left.length && right.length) {
+        if (Number(left[0].todoMonth) < Number(right[0].todoMonth)) {
+            result.push(left.shift());
+        } else if (Number(left[0].todoMonth) > Number(right[0].todoMonth)) {
+            result.push(right.shift());
+
+        } else if (Number(left[0].todoMonth) == Number(right[0].todoMonth)) {
+
+            if (Number(left[0].todoDay) > Number(right[0].todoDay)) {
+                result.push(right.shift());
+                
+            } else if (Number(left[0].todoDay) < Number(right[0].todoDay)) {
+                result.push(left.shift());
+            }
+        }
+    }
+    // result = left.length ? result.concat(left) : result.concat(right)
+
+    while ((leftCount < left.length) || (rightCount < right.length)) {
+        if ((leftCount < left.length)) {
+            result.push(left[leftCount]);
+            leftCount++;
+        } else if ((rightCount < right.length)) {
+            result.push(right[rightCount]);
+            rightCount++;
+        }
+    }
+
+    return result;
+}
